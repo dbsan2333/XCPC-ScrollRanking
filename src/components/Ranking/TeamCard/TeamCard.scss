@@ -1,0 +1,38 @@
+.team-card {
+	--color-background: rgba(58, 93, 114, 0.8);
+
+	width: 100%;
+	background-color: var(--color-background);
+
+	.problem-state {
+		--color-state: rgba(109, 109, 109, 0.4);
+		--color-state-AC: rgba(94, 160, 152, 0.8);
+		--color-state-AC-first: rgba(59, 149, 100, 0.8);
+		--color-state-WA: rgba(155, 99, 102, 0.8);
+		--color-state-PD: rgba(154, 151, 100, 0.8);
+		--color-text: #fff;
+		--heihgt: 40px;
+
+		display: block;
+		width: 80px;
+		height: var(--heihgt);
+		line-height: var(--heihgt);
+		text-align: center;
+		background-color: var(--color-state);
+		color: var(--color-text);
+		overflow: hidden;
+
+		&[state="AC"] {
+			background-color: var(--color-state-AC);
+		}
+		&[state="WA"] {
+			background-color: var(--color-state-WA);
+		}
+		&[state="PD"] {
+			background-color: var(--color-state-PD);
+		}
+		&[state="AC-first"] {
+			background-color: var(--color-state-AC-first);
+		}
+	}
+}
