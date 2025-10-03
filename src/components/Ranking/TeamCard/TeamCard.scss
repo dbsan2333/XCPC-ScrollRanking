@@ -8,7 +8,6 @@
 	--height: 100px;
 
 	height: var(--height);
-	width: 100%;
 	color: var(--color-text);
 	background-color: var(--color-background);
 
@@ -77,8 +76,8 @@
 			background-color: var(--color-state);
 
 			.problem-state {
-				--color-state-AC: rgba(75, 150, 137, 0.8);
-				--color-state-AC-first: rgba(77, 183, 165, 0.8);
+				--color-state-AC: rgba(103, 183, 169, 0.8);
+				--color-state-AC-first: rgba(26, 213, 182, 0.8);
 				--color-state-WA: rgba(170, 99, 103, 0.8);
 				--color-state-PD: rgba(171, 168, 104, 0.8);
 				--heihgt: 40px;
@@ -88,11 +87,13 @@
 				line-height: var(--heihgt);
 				text-align: center;
 				overflow: hidden;
-				font-size: 16px;
+				font-size: 14px;
 				color: var(--color-text-1);
+				width: 0; // 解决宽度随内容变化
 
 				&[state] {
-					font-size: 18px;
+					font-size: 20px;
+					color: var(--color-text);
 				}
 				&[state="AC"] {
 					background-color: var(--color-state-AC);

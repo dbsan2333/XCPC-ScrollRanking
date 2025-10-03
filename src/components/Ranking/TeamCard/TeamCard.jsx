@@ -2,7 +2,7 @@ import "./TeamCard.scss"
 function ProblemState({ state, id, data }) {
 	return (
 		<div className="problem-state" state={state}>
-			<span>{id}</span>
+			{state ? `${data.count} - ${data.time}` : id}
 		</div>
 	)
 }
@@ -24,12 +24,47 @@ export default function TeamCard() {
 				</div>
 				<div className="states">
 					<ProblemState id="A" />
-					<ProblemState id="B" state="AC" />
-					<ProblemState id="C" state="AC" />
-					<ProblemState id="D" state="AC-first" />
+					<ProblemState
+						id="B"
+						state="AC"
+						data={{
+							count: 1,
+							time: 56,
+						}}
+					/>
+					<ProblemState
+						id="C"
+						state="AC"
+						data={{
+							count: 2,
+							time: 234,
+						}}
+					/>
+					<ProblemState
+						id="D"
+						state="AC-first"
+						data={{
+							count: 1,
+							time: 9,
+						}}
+					/>
 					<ProblemState id="E" />
-					<ProblemState id="F" state="WA" />
-					<ProblemState id="G" state="PD" />
+					<ProblemState
+						id="F"
+						state="WA"
+						data={{
+							count: 15,
+							time: 299,
+						}}
+					/>
+					<ProblemState
+						id="G"
+						state="PD"
+						data={{
+							count: 2,
+							time: 107,
+						}}
+					/>
 					<ProblemState id="H" />
 					<ProblemState id="I" />
 					<ProblemState id="J" />
