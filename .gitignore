@@ -25,3 +25,4 @@ dist-ssr
 
 # 本地开发测试文件夹
 test
+public/data/*
