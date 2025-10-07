@@ -1,78 +1,56 @@
+import { useContext } from "react"
 import "./TeamCard.scss"
-function ProblemState({ state, id, data }) {
+import { ConfigContext, TeamContext } from "../../../context/data"
+function ProblemState({ state, id, tries, time }) {
+	const config = useContext(ConfigContext)
 	return (
 		<div className="problem-state" state={state}>
-			{state ? `${data.count} - ${data.time}` : id}
+			{state ? `${tries} - ${time}` : config.problem.tag[id]}
 		</div>
 	)
 }
 
-export default function TeamCard() {
+export default function TeamCard({ teamId, problems, passCount, time, ranking }) {
+	const config = useContext(ConfigContext)
+	const team = useContext(TeamContext)
+
+	// TODO: 在source.json中增加组织信息
+	// const orgLogoURL =
+	// 	organization[team[teamId].organization].logoURL ||
+	// 	`/data/badge/${team[teamId].organization}${config.photo.organization.suffix}`
+	const orgLogoURL = `/data/badge/${team[teamId].organization}${config.photo.organization.suffix}`
+
 	return (
 		<div className="team-card">
-			<div className="ranking">4</div>
+			<div className="ranking">{ranking}</div>
 			<div className="org-logo">
-				<img src="/src/assets/img/logo_demo.png" />
+				<img src={orgLogoURL} onError={(e) => (e.target.style.display = "none")} />
 			</div>
 			<div className="center">
 				<div className="team-info">
-					<div className="org-name">郑州航空工业学院</div>
-					<div className="team-name">
-						咕咕嘎嘎咕咕嘎咕咕嘎咕咕嘎咕咕嘎咕咕嘎咕咕嘎咕咕嘎 咕咕嘎 咕咕嘎 咕咕嘎
-						咕咕嘎
-					</div>
+					<div className="org-name">{team[teamId].organization}</div>
+					<div className="team-name">{team[teamId].name}</div>
 				</div>
 				<div className="states">
-					<ProblemState id="A" />
-					<ProblemState
-						id="B"
-						state="AC"
-						data={{
-							count: 1,
-							time: 56,
-						}}
-					/>
-					<ProblemState
-						id="C"
-						state="AC"
-						data={{
-							count: 2,
-							time: 234,
-						}}
-					/>
-					<ProblemState
-						id="D"
-						state="AC-first"
-						data={{
-							count: 1,
-							time: 9,
-						}}
-					/>
-					<ProblemState id="E" />
-					<ProblemState
-						id="F"
-						state="WA"
-						data={{
-							count: 15,
-							time: 299,
-						}}
-					/>
-					<ProblemState
-						id="G"
-						state="PD"
-						data={{
-							count: 2,
-							time: 107,
-						}}
-					/>
-					<ProblemState id="H" />
-					<ProblemState id="I" />
-					<ProblemState id="J" />
-					<ProblemState id="K" />
+					{problems.map((problemData, index) => {
+						let state = null
+						if (problemData.tries) {
+							state = problemData.frozen ? "PD" : problemData.passed ? "AC" : "WA"
+						}
+						return (
+							<ProblemState
+								id={index}
+								key={index}
+								state={state}
+								tries={problemData.tries}
+								time={Math.floor(problemData.time / 60)}
+							/>
+						)
+					})}
 				</div>
 			</div>
-			<div className="solved-number">3</div>
-			<div className="total-time">1341</div>
+			<div className="solved-number">{passCount}</div>
+			<div className="total-time">{Math.floor(time / 60)}</div>
 		</div>
 	)
 }

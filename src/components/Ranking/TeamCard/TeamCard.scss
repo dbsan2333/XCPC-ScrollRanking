@@ -116,6 +116,7 @@
 		text-align: center;
 		font-size: 32px;
 		width: 80px;
+		min-width: 80px;
 		background-color: var(--color-background-2);
 	}
 
@@ -124,5 +125,6 @@
 		text-align: center;
 		font-size: 24px;
 		width: var(--height);
+		min-width: var(--height);
 	}
 }

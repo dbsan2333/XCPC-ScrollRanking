@@ -3,26 +3,33 @@ export default function getRankList({ config, run }, frozen = true) {
 
 	const teams = {}
 	run.sort((a, b) => a.timestamp - b.timestamp)
+
 	run.forEach((record) => {
 		let t = teams[record.teamId]
 		if (t === undefined) {
 			t = {
 				teamId: record.teamId,
-				problems: {},
+				problems: new Array(config.problem.quantity).fill({}),
 				time: 0,
 				passCount: 0,
 			}
 		}
-		if (t.problems[record.teamId] === undefined) {
+
+		if (t.problems[record.problemId].tries === undefined) {
 			t.problems[record.problemId] = {
 				passed: false,
 				time: 0,
-				try: 0,
+				tries: 0,
 				frozen: false,
 			}
 		}
 		// 如果该题已经AC，不再考虑
 		if (t.problems[record.problemId].passed === false) {
+			if (record.status === config.judge.stateString.CE) {
+				// 如果该题CE，就当无视发生
+				return
+			}
+
 			if (frozen == true && record.timestamp >= frozenMoment) {
 				// 如果开启统计封榜且该提交时间在封榜时间段内，则该题被frozen
 				t.problems[record.problemId].frozen = true
@@ -35,11 +42,11 @@ export default function getRankList({ config, run }, frozen = true) {
 					t.passCount++
 					t.time +=
 						record.timestamp +
-						config.judge.penaltyTime * t.problems[record.problemId].try
+						config.judge.penaltyTime * t.problems[record.problemId].tries
 				}
 			}
 			t.problems[record.problemId].time = record.timestamp
-			t.problems[record.problemId].try++
+			t.problems[record.problemId].tries++
 		}
 
 		teams[record.teamId] = t

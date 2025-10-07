@@ -3,13 +3,18 @@ import Board from "./components/Ranking/Board/Board"
 import TeamCard from "./components/Ranking/TeamCard/TeamCard"
 import { getDataFromUrl } from "./utils/readSource.js"
 import getRankList from "./utils/getRankList.js"
+import { ConfigContext, TeamContext } from "./context/data.js"
 
-console.log(getRankList(await getDataFromUrl("/data/source.json"), false))
-
+const { config, team, run } = await getDataFromUrl("/data/source.json")
 function App() {
+	const rankData = getRankList({ config, team, run }, true)
 	return (
 		<>
-			<Board />
+			<ConfigContext value={config}>
+				<TeamContext value={team}>
+					<Board rankData={rankData} />
+				</TeamContext>
+			</ConfigContext>
 		</>
 	)
 }
