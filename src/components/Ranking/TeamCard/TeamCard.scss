@@ -1,8 +1,8 @@
 .team-card {
-	--color-background: rgba(58, 93, 114, 0.8);
+	--color-background: rgba(46, 70, 84, 0.6);
 	--color-background-1: rgba(178, 202, 216, 0.2);
 	--color-background-2: rgba(178, 202, 216, 0.1);
-	--color-light: rgba(174, 201, 218, 0.8);
+	--color-light: rgba(176, 208, 227, 0.6);
 	--color-text: #fff;
 	--color-text-1: #aaa;
 	--height: 100px;
@@ -50,7 +50,7 @@
 			.org-name {
 				padding: 0 16px 0 0;
 				font-size: 26px;
-				min-width: 240px;
+				min-width: 220px;
 				background-color: var(--color-background-1);
 			}
 
