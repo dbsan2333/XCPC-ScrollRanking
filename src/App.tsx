@@ -1,9 +1,8 @@
 import "./App.css"
 import Board from "./components/Ranking/Board/Board"
-import TeamCard from "./components/Ranking/TeamCard/TeamCard"
-import { getDataFromUrl } from "./utils/readSource.js"
-import getRankList from "./utils/getRankList.js"
-import { ConfigContext, TeamContext } from "./context/data.js"
+import { getDataFromUrl } from "./utils/readSource"
+import getRankList from "./utils/getRankList"
+import { ConfigContext, TeamContext } from "./context/data"
 
 const { config, team, run } = await getDataFromUrl("/data/source.json")
 function App() {

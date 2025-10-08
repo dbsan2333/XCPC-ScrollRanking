@@ -7,7 +7,7 @@
  * @param {File} file
  */
 export function getDataFromFile(file) {
-	return parseData(JSON.parse(file.contents.toString()))
+  return parseData(JSON.parse(file.contents.toString()))
 }
 
 /**
@@ -15,11 +15,11 @@ export function getDataFromFile(file) {
  * @param {string} url
  */
 export async function getDataFromUrl(url) {
-	let response = await fetch(url).then((res) => res.json())
-	return parseData(response)
+  let response = await fetch(url).then((res) => res.json())
+  return parseData(response)
 }
 
 function parseData(data) {
-	const { config, team, run } = data
-	return { config, team, run }
+  const { config, team, run } = data
+  return { config, team, run }
 }
