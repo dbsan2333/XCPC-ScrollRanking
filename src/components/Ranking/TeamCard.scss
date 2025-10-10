@@ -4,7 +4,7 @@
 	--color-background-2: rgba(178, 202, 216, 0.1);
 	--color-light: rgba(176, 208, 227, 0.6);
 	--color-text: #fff;
-	--color-text-1: #aaa;
+	--color-text-1: #888;
 	--height: 100px;
 
 	height: var(--height);
@@ -87,24 +87,24 @@
 				line-height: var(--heihgt);
 				text-align: center;
 				overflow: hidden;
-				font-size: 14px;
+				font-size: 16px;
 				color: var(--color-text-1);
 				width: 0; // 解决宽度随内容变化
 
-				&[state] {
+				&[data-state] {
 					font-size: 20px;
 					color: var(--color-text);
 				}
-				&[state="AC"] {
+				&[data-state="AC"] {
 					background-color: var(--color-state-AC);
 				}
-				&[state="WA"] {
+				&[data-state="WA"] {
 					background-color: var(--color-state-WA);
 				}
-				&[state="PD"] {
+				&[data-state="PD"] {
 					background-color: var(--color-state-PD);
 				}
-				&[state="AC-first"] {
+				&[data-state="AC-first"] {
 					background-color: var(--color-state-AC-first);
 				}
 			}

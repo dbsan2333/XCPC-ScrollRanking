@@ -1,19 +1,17 @@
 import "./App.css"
-import Board from "./components/Ranking/Board/Board"
+import Board from "./components/Ranking/Board"
 import { getDataFromUrl } from "./utils/readSource"
 import getRankList from "./utils/getRankList"
-import { ConfigContext, TeamContext } from "./context/data"
+import {AppDataContext } from "./context/data"
 
-const { config, team, run } = await getDataFromUrl("/data/source.json")
+const { config,organization, team, run } = await getDataFromUrl("/data/source.json")
 function App() {
-	const rankData = getRankList({ config, team, run }, true)
+	const rankData = getRankList({ config, run }, true)
 	return (
 		<>
-			<ConfigContext value={config}>
-				<TeamContext value={team}>
-					<Board rankData={rankData} />
-				</TeamContext>
-			</ConfigContext>
+      <AppDataContext value={{ config, organization, team }}>
+        <Board rankData={rankData} />
+      </AppDataContext>
 		</>
 	)
 }
