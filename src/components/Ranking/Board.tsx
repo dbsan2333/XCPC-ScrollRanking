@@ -6,8 +6,8 @@ export default function Board({ config, team, rankData }: {config?:SourceConfig,
 	console.log(config, team, rankData)
 	return (
 		<div className="board">
-			{rankData.map((teamData, index) => {
-				return <TeamCard {...teamData} key={teamData.teamId} ranking={index + 1} />
+			{rankData.map((teamData) => {
+				return <TeamCard {...teamData} key={teamData.teamId} />
 			})}
 		</div>
 	)

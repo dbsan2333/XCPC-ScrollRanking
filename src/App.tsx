@@ -6,7 +6,7 @@ import {AppDataContext } from "./context/data"
 
 const { config,organization, team, run } = await getDataFromUrl("/data/source.json")
 function App() {
-	const rankData = getRankList({ config, run }, true)
+	const rankData = getRankList({ config,team, run }, true)
 	return (
 		<>
       <AppDataContext value={{ config, organization, team }}>

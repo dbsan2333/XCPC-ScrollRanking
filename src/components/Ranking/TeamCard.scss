@@ -32,7 +32,8 @@
 		background-color: var(--color-background-1);
 		text-align: center;
 		img {
-			height: 100%;
+			max-height: 100%;
+			max-width: 100%;
 		}
 	}
 
@@ -77,7 +78,7 @@
 
 			.problem-state {
 				--color-state-AC: rgba(67, 192, 171, 0.8);
-				--color-state-AC-first: rgba(33, 235, 201, 0.8);
+				--color-state-AC-first: rgba(35, 120, 97, 0.8);
 				--color-state-WA: rgba(170, 99, 103, 0.8);
 				--color-state-PD: rgba(171, 168, 104, 0.8);
 				--heihgt: 40px;

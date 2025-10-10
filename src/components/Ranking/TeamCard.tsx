@@ -2,16 +2,9 @@ import { useContext } from "react"
 import "./TeamCard.scss"
 import { AppDataContext } from "../../context/data"
 import type { TeamData } from "../../utils/getRankList";
-function ProblemState({ state, id, tries, time }: { state: string|null; id: number; tries: number; time: number }) {
-	const {config} = useContext(AppDataContext)
-	return (
-		<div className="problem-state" data-state={state}>
-			{state ? `${tries} - ${time}` : config.problem.tag[id]}
-		</div>
-	)
-}
+import handleImageError from "../../utils/handleImageError";
 
-export default function TeamCard({ teamId, problems, passCount, time, ranking }:  TeamData&{ranking:number} ) {
+export default function TeamCard({ teamId, problems, passCount, time, ranking }:  TeamData) {
 	const {config,team,organization} = useContext(AppDataContext)
 
 	// 组织或学校的logo的URL
@@ -21,9 +14,9 @@ export default function TeamCard({ teamId, problems, passCount, time, ranking }:
 
 	return (
 		<div className="team-card">
-			<div className="ranking">{ranking}</div>
+			<div className="ranking">{ranking??"*"}</div>
 			<div className="org-logo">
-				<img src={orgLogoURL} onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+				<img src={orgLogoURL} onError={handleImageError} />
 			</div>
 			<div className="center">
 				<div className="team-info">
@@ -34,7 +27,7 @@ export default function TeamCard({ teamId, problems, passCount, time, ranking }:
 					{problems.map((problemData, index) => {
 						let state = null
 						if (problemData.tries) {
-							state = problemData.frozen ? "PD" : problemData.passed ? "AC" : "WA"
+							state = problemData.firstBlood?"AC-first":(problemData.frozen ? "PD" : (problemData.passed ? "AC" : "WA"))
 						}
 						return (
 							<ProblemState
@@ -50,6 +43,15 @@ export default function TeamCard({ teamId, problems, passCount, time, ranking }:
 			</div>
 			<div className="solved-number">{passCount}</div>
 			<div className="total-time">{Math.floor(time / 60)}</div>
+		</div>
+	)
+}
+
+function ProblemState({ state, id, tries, time }: { state: string|null; id: number; tries: number; time: number }) {
+	const {config} = useContext(AppDataContext)
+	return (
+		<div className="problem-state" data-state={state}>
+			{state ? `${tries} - ${time}` : config.problem.tag[id]}
 		</div>
 	)
 }

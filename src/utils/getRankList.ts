@@ -1,4 +1,4 @@
-import type { SourceConfig, SourceRun } from "../interface/source";
+import type { SourceConfig, SourceRun, SourceTeam } from "../interface/source";
 
 export interface TeamData {
   teamId: string,
@@ -8,14 +8,17 @@ export interface TeamData {
     time: number;
     tries: number;
     frozen: boolean;
+    firstBlood: boolean;
   }[];
   time: number;
   passCount: number;
+  ranking: number | null;
 }
-export default function getRankList({ config, run }: { config: SourceConfig, run: SourceRun[] }, frozen: boolean = true) {
+export default function getRankList({ config, team, run }: { config: SourceConfig, team: SourceTeam, run: SourceRun[] }, frozen: boolean = true) {
   const frozenMoment = config.contest.endTime - config.contest.startTime - config.judge.frozenTime //比赛开始后多少秒封榜
 
   const teams: { [teamId: string]: TeamData } = {}
+  const isFirstBlood: boolean[] = new Array(config.problem.quantity).fill(false)
   run.sort((a, b) => a.timestamp - b.timestamp)
 
   run.forEach((record) => {
@@ -26,6 +29,7 @@ export default function getRankList({ config, run }: { config: SourceConfig, run
         problems: new Array(config.problem.quantity).fill({}),
         time: 0,
         passCount: 0,
+        ranking: null
       }
     }
 
@@ -35,6 +39,7 @@ export default function getRankList({ config, run }: { config: SourceConfig, run
         time: 0,
         tries: 0,
         frozen: false,
+        firstBlood: false
       }
     }
     // 如果该题已经AC，不再考虑
@@ -50,6 +55,11 @@ export default function getRankList({ config, run }: { config: SourceConfig, run
       }
       if (record.status === config.judge.stateString.AC) {
         // 如果该题AC
+        if (isFirstBlood[record.problemId] === false) {
+          // 是否一血
+          t.problems[record.problemId].firstBlood = true
+          isFirstBlood[record.problemId] = true
+        }
         t.problems[record.problemId].passed = true
         if (frozen == false || record.timestamp < frozenMoment) {
           // 如果统计封榜后的或还未封榜，更新该队时间和过题数
@@ -76,6 +86,14 @@ export default function getRankList({ config, run }: { config: SourceConfig, run
       return b.passCount - a.passCount
     } else {
       return a.time - b.time
+    }
+  })
+  // 计算排名/打星
+  let ranking: number = 1
+  result.forEach((teamData) => {
+    if (team[teamData.teamId].unofficial !== true) {
+      teamData.ranking = ranking
+      ranking++
     }
   })
 

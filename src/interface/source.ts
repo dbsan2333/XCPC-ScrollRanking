@@ -52,6 +52,8 @@ export interface SourceTeam {
     organization: string;
     members: string[];
     coach: string;
+    group: string[];
+    unofficial?: boolean;
     photoURL?: string;
   }
 }

@@ -4,7 +4,7 @@
 
 目标：更好看、更炫酷、更好用、更全能、更易接入和二次开发。
 
-![demo](/doc/img/demo_2025-10-07.png)
+![demo](/doc/img/demo_2025-10-10.png)
 *Demo数据来源：[2025 CCPC 全国邀请赛（郑州）暨第七届 CCPC 河南省赛 - 正式赛](https://board.xcpcio.com/ccpc/11st/zhengzhou-invitational)*
 
 ## React + Vite
