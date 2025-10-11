@@ -12,7 +12,8 @@ export interface TeamData {
   }[];
   time: number;
   passCount: number;
-  ranking: number | null;
+  officialRanking: number | null;
+  ranking: number;
 }
 export default function getRankList({ config, team, run }: { config: SourceConfig, team: SourceTeam, run: SourceRun[] }, frozen: boolean = true) {
   const frozenMoment = config.contest.endTime - config.contest.startTime - config.judge.frozenTime //比赛开始后多少秒封榜
@@ -29,7 +30,8 @@ export default function getRankList({ config, team, run }: { config: SourceConfi
         problems: new Array(config.problem.quantity).fill({}),
         time: 0,
         passCount: 0,
-        ranking: null
+        officialRanking: null,
+        ranking: 0
       }
     }
 
@@ -89,11 +91,12 @@ export default function getRankList({ config, team, run }: { config: SourceConfi
     }
   })
   // 计算排名/打星
-  let ranking: number = 1
-  result.forEach((teamData) => {
+  let officialRanking = 1
+  result.forEach((teamData, index) => {
     if (team[teamData.teamId].unofficial !== true) {
-      teamData.ranking = ranking
-      ranking++
+      teamData.officialRanking = officialRanking
+      teamData.ranking = index + 1
+      officialRanking++
     }
   })
 

@@ -1,20 +1,38 @@
-import { useContext } from "react"
+import { useContext, useEffect, useRef } from "react"
 import "./TeamCard.scss"
 import { AppDataContext } from "../../context/data"
-import type { TeamData } from "../../utils/getRankList";
-import handleImageError from "../../utils/handleImageError";
+import handleImageError from "../../utils/handleImageError"
+import type { RankDataElement } from "./Board"
 
-export default function TeamCard({ teamId, problems, passCount, time, ranking }:  TeamData) {
-	const {config,team,organization} = useContext(AppDataContext)
+export default function TeamCard({
+	teamId,
+	problems,
+	passCount,
+	time,
+	officialRanking,
+	focus,
+}: RankDataElement) {
+	const { config, team, organization } = useContext(AppDataContext)
+	const teamCardRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		if (focus === true && teamCardRef.current) {
+			teamCardRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+				inline: "center",
+			})
+		}
+	}, [focus])
 
 	// 组织或学校的logo的URL
 	const orgLogoURL =
 		organization[team[teamId].organization]?.logoURL ??
-		`/data/badge/${team[teamId].organization}${config.photo?.organization?.suffix??".jpg"}`
+		`/data/badge/${team[teamId].organization}${config.photo?.organization?.suffix ?? ".jpg"}`
 
 	return (
-		<div className="team-card">
-			<div className="ranking">{ranking??"*"}</div>
+		<div ref={teamCardRef} className="team-card">
+			<div className="ranking">{officialRanking ?? "*"}</div>
 			<div className="org-logo">
 				<img src={orgLogoURL} onError={handleImageError} />
 			</div>
@@ -27,7 +45,13 @@ export default function TeamCard({ teamId, problems, passCount, time, ranking }:
 					{problems.map((problemData, index) => {
 						let state = null
 						if (problemData.tries) {
-							state = problemData.firstBlood?"AC-first":(problemData.frozen ? "PD" : (problemData.passed ? "AC" : "WA"))
+							state = problemData.firstBlood
+								? "AC-first"
+								: problemData.frozen
+								? "PD"
+								: problemData.passed
+								? "AC"
+								: "WA"
 						}
 						return (
 							<ProblemState
@@ -47,8 +71,18 @@ export default function TeamCard({ teamId, problems, passCount, time, ranking }:
 	)
 }
 
-function ProblemState({ state, id, tries, time }: { state: string|null; id: number; tries: number; time: number }) {
-	const {config} = useContext(AppDataContext)
+function ProblemState({
+	state,
+	id,
+	tries,
+	time,
+}: {
+	state: string | null
+	id: number
+	tries: number
+	time: number
+}) {
+	const { config } = useContext(AppDataContext)
 	return (
 		<div className="problem-state" data-state={state}>
 			{state ? `${tries} - ${time}` : config.problem.tag[id]}
