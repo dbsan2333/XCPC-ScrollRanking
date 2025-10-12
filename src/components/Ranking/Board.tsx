@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./Board.scss"
 import TeamCard from "./TeamCard"
-import type { TeamData } from "../../utils/getRankList"
-import { useEffect, useState } from "react"
+import type { TeamData } from "../../utils/getRankData"
+import { useEffect, useState, useContext } from "react"
 import { useImmer } from "use-immer"
+import { AppDataContext } from "../../context/data"
 
 export interface RankDataElement extends TeamData {
-	focus: string | boolean
+	focus: {
+		on: boolean
+		problemId: number | null
+	}
 }
 type RankData = RankDataElement[]
 
@@ -32,6 +36,8 @@ interface RankList {
 // 	return rankData
 // }
 export default function Board({ teamDatas }: { teamDatas: TeamData[] }) {
+	const { appConfig } = useContext(AppDataContext)
+
 	// 创建链表RankList，用于滚榜时快速调整排名
 	const rankList: RankList = {}
 	teamDatas.forEach((teamData, index) => {
@@ -47,47 +53,66 @@ export default function Board({ teamDatas }: { teamDatas: TeamData[] }) {
 		teamDatas.map((teamData) => {
 			return {
 				...teamData,
-				focus: false,
+				focus: {
+					on: false,
+					problemId: null,
+				},
 			}
 		})
 	)
 
-	const [currentTeamId, setCurrentTeamId] = useState<string>("")
+	const [current, setCurrent] = useState<{
+		teamId: string | null
+		problemId: number | null
+	}>({
+		teamId: null,
+		problemId: null,
+	})
 
 	useEffect(() => {
+		// 测试用
+		// 开始滚榜
 		begin()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	useEffect(() => {
-		if (currentTeamId != "") {
+		if (current.teamId != null) {
 			setRankData((draft) => {
 				draft.forEach((teamData) => {
-					if (teamData.teamId == currentTeamId) {
-						teamData.focus = true
+					if (teamData.teamId == current.teamId) {
+						teamData.focus = {
+							on: teamData.teamId === current.teamId,
+							problemId: current.problemId,
+						}
 					}
 				})
 			})
 		}
-	}, [currentTeamId, setRankData])
+	}, [current, setRankData])
 	/**
 	 * 开始滚榜
 	 */
 	function begin() {
-		setCurrentTeamId(teamDatas[teamDatas.length - 1].teamId)
+		setCurrent({
+			teamId: teamDatas[teamDatas.length - 1].teamId,
+			problemId: 0, // TEST
+		})
 	}
 
 	return (
 		<>
-			{/* 测试用 */}
-			<div style={{ position: "fixed", right: "10px" }}>
-				<button>下一步</button>
-			</div>
-
-			<div className="board">
+			<div
+				className="board"
+				style={{ height: appConfig.style.teamCardHeight * teamDatas.length }}>
 				{rankData.map((teamData) => {
 					return <TeamCard {...teamData} key={teamData.teamId} />
 				})}
+			</div>
+
+			{/* 测试用 */}
+			<div style={{ position: "fixed", right: 10, top: 5 }}>
+				<button>下一步</button>
 			</div>
 		</>
 	)

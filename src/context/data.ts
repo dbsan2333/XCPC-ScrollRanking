@@ -5,8 +5,15 @@ import type { SourceConfig, SourceOrganization, SourceTeam } from "../interface/
 // export const OrganizationContext = createContext({})
 // export const TeamContext = createContext({})
 
-export const AppDataContext = createContext<{ config: SourceConfig, organization: SourceOrganization, team: SourceTeam }>({
+interface AppConfig {
+  style: {
+    teamCardHeight: number,
+  },
+}
+
+export const AppDataContext = createContext<{ config: SourceConfig, organization: SourceOrganization, team: SourceTeam, appConfig: AppConfig }>({
   config: {} as SourceConfig,
   organization: {} as SourceOrganization,
-  team: {} as SourceTeam
+  team: {} as SourceTeam,
+  appConfig: {} as AppConfig
 })

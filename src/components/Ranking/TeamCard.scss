@@ -1,131 +1,161 @@
-.team-card {
-	--color-background: rgba(46, 70, 84, 0.6);
-	--color-background-1: rgba(178, 202, 216, 0.2);
-	--color-background-2: rgba(178, 202, 216, 0.1);
-	--color-light: rgba(176, 208, 227, 0.6);
-	--color-text: #fff;
-	--color-text-1: #888;
-	--height: 100px;
+.team-card-wrap {
+	padding: 5px 10px;
 
-	height: var(--height);
-	color: var(--color-text);
-	background-color: var(--color-background);
+	.team-card {
+		--color-background: rgba(46, 70, 84, 0.6);
+		--color-background-light: rgba(64, 147, 196, 0.6);
+		--color-background-1: rgba(178, 202, 216, 0.2);
+		--color-background-2: rgba(178, 202, 216, 0.1);
+		--color-light: rgba(176, 208, 227, 0.6);
+		--color-text: #fff;
+		--color-text-1: #888;
+		--height: 100px;
 
-	display: flex;
-	flex-flow: row nowrap;
+		height: var(--height);
+		width: 100%;
+		color: var(--color-text);
+		background-color: var(--color-background);
 
-	& > * {
-		height: 100%;
-	}
+		display: flex;
+		flex-flow: row nowrap;
 
-	.ranking {
-		aspect-ratio: 1;
-		line-height: var(--height);
-		text-align: center;
-		font-size: 36px;
-		border-right: solid 2px var(--color-light);
-	}
-	.org-logo {
-		aspect-ratio: 1.2;
-		padding: 5px;
-		box-sizing: border-box;
-		background-color: var(--color-background-1);
-		text-align: center;
-		img {
-			max-height: 100%;
-			max-width: 100%;
+		& > * {
+			height: 100%;
 		}
-	}
 
-	.center {
-		flex-grow: 1;
+		&[data-focus="true"] {
+			background-color: var(--color-background-light);
+		}
 
-		.team-info {
-			--height: 60px;
-
-			display: flex;
-			flex-flow: row nowrap;
-			height: var(--height);
+		.ranking {
+			aspect-ratio: 1;
 			line-height: var(--height);
-
-			.org-name {
-				padding: 0 16px 0 0;
-				font-size: 26px;
-				min-width: 220px;
-				background-color: var(--color-background-1);
-			}
-
-			.team-name {
-				padding: 0 16px;
-				font-size: 32px;
-				font-weight: bold;
-				flex-grow: 1;
-				// 实现省略号
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				width: 0; //解决上面3个属性不生效
+			text-align: center;
+			font-size: 36px;
+			border-right: solid 2px var(--color-light);
+		}
+		.org-logo {
+			aspect-ratio: 1.2;
+			padding: 5px;
+			box-sizing: border-box;
+			background-color: var(--color-background-1);
+			text-align: center;
+			img {
+				max-height: 100%;
+				max-width: 100%;
 			}
 		}
 
-		.states {
-			--color-state: rgba(65, 65, 65, 0.6);
+		.center {
+			flex-grow: 1;
 
-			display: flex;
-			flex-flow: row nowrap;
-			justify-content: space-between;
-			background-color: var(--color-state);
+			.team-info {
+				--height: 60px;
 
-			.problem-state {
-				--color-state-AC: rgba(67, 192, 171, 0.8);
-				--color-state-AC-first: rgba(35, 120, 97, 0.8);
-				--color-state-WA: rgba(170, 99, 103, 0.8);
-				--color-state-PD: rgba(171, 168, 104, 0.8);
-				--heihgt: 40px;
+				display: flex;
+				flex-flow: row nowrap;
+				height: var(--height);
+				line-height: var(--height);
 
-				flex-grow: 1;
-				height: var(--heihgt);
-				line-height: var(--heihgt);
-				text-align: center;
-				overflow: hidden;
-				font-size: 16px;
-				color: var(--color-text-1);
-				width: 0; // 解决宽度随内容变化
+				.org-name {
+					padding: 0 16px 0 0;
+					font-size: 26px;
+					min-width: 220px;
+					background-color: var(--color-background-1);
+				}
 
-				&[data-state] {
-					font-size: 20px;
-					color: var(--color-text);
+				.team-name {
+					padding: 0 16px;
+					font-size: 32px;
+					font-weight: bold;
+					flex-grow: 1;
+					// 实现省略号
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					width: 0; //解决上面3个属性不生效
 				}
-				&[data-state="AC"] {
-					background-color: var(--color-state-AC);
-				}
-				&[data-state="WA"] {
-					background-color: var(--color-state-WA);
-				}
-				&[data-state="PD"] {
-					background-color: var(--color-state-PD);
-				}
-				&[data-state="AC-first"] {
-					background-color: var(--color-state-AC-first);
+			}
+
+			.states {
+				--color-state: rgba(65, 65, 65, 0.6);
+
+				display: flex;
+				flex-flow: row nowrap;
+				justify-content: space-between;
+				background-color: var(--color-state);
+
+				.problem-state {
+					--color-state-AC: rgba(67, 192, 171, 0.8);
+					--color-state-AC-first: rgba(35, 120, 97, 0.8);
+					--color-state-WA: rgba(170, 99, 103, 0.8);
+					--color-state-PD: rgba(171, 168, 104, 0.8);
+					--color-state-PD-light: rgba(224, 219, 108, 0.8);
+					--heihgt: 40px;
+
+					flex-grow: 1;
+					height: var(--heihgt);
+					line-height: var(--heihgt);
+					text-align: center;
+					overflow: hidden;
+					font-size: 16px;
+					color: var(--color-text-1);
+					width: 0; // 解决宽度随内容变化
+
+					&[data-state] {
+						font-size: 20px;
+						color: var(--color-text);
+					}
+					&[data-state="AC"] {
+						background-color: var(--color-state-AC);
+					}
+					&[data-state="WA"] {
+						background-color: var(--color-state-WA);
+					}
+					&[data-state="PD"] {
+						background-color: var(--color-state-PD);
+					}
+					&[data-state="AC-first"] {
+						background-color: var(--color-state-AC-first);
+					}
+
+					&[data-focused="true"] {
+						animation-name: flash;
+						animation-duration: 0.4s;
+						animation-iteration-count: infinite;
+						animation-direction: alternate;
+						transition-timing-function: ease-out;
+					}
+
+					@keyframes flash {
+						from {
+							background-color: var(--color-state-PD);
+							box-shadow: 0 0 0 var(--color-state-PD-light);
+						}
+						to {
+							background-color: var(--color-state-PD-light);
+							box-shadow: 0 0 10px var(--color-state-PD-light);
+						}
+					}
 				}
 			}
 		}
-	}
 
-	.solved-number {
-		line-height: var(--height);
-		text-align: center;
-		font-size: 32px;
-		width: 80px;
-		min-width: 80px;
-		background-color: var(--color-background-2);
-	}
+		.solved-number {
+			line-height: var(--height);
+			text-align: center;
+			font-size: 32px;
+			width: 80px;
+			min-width: 80px;
+			background-color: var(--color-background-2);
+		}
 
-	.total-time {
-		line-height: var(--height);
-		text-align: center;
-		font-size: 24px;
-		width: var(--height);
-		min-width: var(--height);
+		.total-time {
+			line-height: var(--height);
+			text-align: center;
+			font-size: 24px;
+			width: var(--height);
+			min-width: var(--height);
+		}
 	}
 }

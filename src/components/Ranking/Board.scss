@@ -2,7 +2,8 @@
 	width: 100%;
 
 	& > * {
+		position: absolute;
 		box-sizing: border-box;
-		margin: 10px;
+		width: 100%;
 	}
 }
